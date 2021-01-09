@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_nasa_photo/repository/photoImageProvider.dart';
+import 'package:flutter_nasa_photo/view/nasaWebView.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class PhotoItemView extends StatelessWidget {
@@ -13,6 +14,7 @@ class PhotoItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("imageUrl $imageUrl");
     return
       Padding(padding: EdgeInsets.all(8),
         child: GridTile(
@@ -22,19 +24,27 @@ class PhotoItemView extends StatelessWidget {
           ),
           child: FittedBox(
             fit: BoxFit.fill,
-           child: FutureBuilder<ImageProvider>(
-             future: PhotoImageProvider(imageUrl, date).getProvider(),
-             builder: (BuildContext context, AsyncSnapshot<ImageProvider> snapshot){
-               if(snapshot.hasData){
-                 // ignore: missing_return
-                 return Image(image: snapshot.data);
-               }
-               return Image.memory(kTransparentImage);
-             },
-           ),
+           child: getItemView(),
           ),
         ),
       );
+  }
+
+  Widget getItemView() {
+    if(imageUrl.endsWith('jpg')){
+      return FutureBuilder<ImageProvider>(
+        future: PhotoImageProvider(imageUrl, date).getProvider(),
+        builder: (BuildContext context, AsyncSnapshot<ImageProvider> snapshot){
+          if(snapshot.hasData){
+            // ignore: missing_return
+            return Image(image: snapshot.data);
+          }
+          return Image.memory(kTransparentImage);
+        },
+      );
+    } else {
+      return NasaWebView(imageUrl);
+    }
   }
 }
 
