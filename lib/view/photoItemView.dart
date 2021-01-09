@@ -13,22 +13,27 @@ class PhotoItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridTile(
-      footer: GridTileBar(
-        backgroundColor: Colors.black45,
-        title: _GridTitleText(imageTitle)
-      ),
-      child:
-          FutureBuilder<ImageProvider>(
-            future: PhotoImageProvider(imageUrl, date).getProvider(),
-            builder: (BuildContext context, AsyncSnapshot<ImageProvider> snapshot){
-              if(snapshot.hasData){
-                // ignore: missing_return
-                return Image(image: snapshot.data);
-              }
-              return Image.memory(kTransparentImage);
-            },
+    return
+      Padding(padding: EdgeInsets.all(8),
+        child: GridTile(
+          footer: GridTileBar(
+              backgroundColor: Colors.black45,
+              title: _GridTitleText(imageTitle)
           ),
+          child: FittedBox(
+            fit: BoxFit.fill,
+           child: FutureBuilder<ImageProvider>(
+             future: PhotoImageProvider(imageUrl, date).getProvider(),
+             builder: (BuildContext context, AsyncSnapshot<ImageProvider> snapshot){
+               if(snapshot.hasData){
+                 // ignore: missing_return
+                 return Image(image: snapshot.data);
+               }
+               return Image.memory(kTransparentImage);
+             },
+           ),
+          ),
+        ),
       );
   }
 }
