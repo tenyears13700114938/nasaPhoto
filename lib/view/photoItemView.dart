@@ -14,9 +14,9 @@ class PhotoItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridTile(
-      footer: Align(
-        alignment: Alignment.center,
-        child: Text(imageTitle)
+      footer: GridTileBar(
+        backgroundColor: Colors.black45,
+        title: _GridTitleText(imageTitle)
       ),
       child:
           FutureBuilder<ImageProvider>(
@@ -30,5 +30,22 @@ class PhotoItemView extends StatelessWidget {
             },
           ),
       );
+  }
+}
+
+class _GridTitleText extends StatelessWidget {
+  const _GridTitleText(this.text);
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+     // fit: BoxFit.contain,
+      alignment: Alignment.topLeft,
+      child: Text(text,
+      maxLines: 2,
+      ),
+    );
   }
 }
