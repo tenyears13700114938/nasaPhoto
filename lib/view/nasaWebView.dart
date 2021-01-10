@@ -28,14 +28,14 @@ class NasaWebViewState extends State<NasaWebView> {
 
   @override
   Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-          maxHeight: MediaQuery.of(context).size.height - MediaQuery.of(context).padding.vertical,
-          maxWidth: MediaQuery.of(context).size.width - MediaQuery.of(context).padding.horizontal),
+    return SizedBox(
+      // constraints: BoxConstraints(
+          height: MediaQuery.of(context).size.height - MediaQuery.of(context).padding.vertical,
+           width: MediaQuery.of(context).size.width - MediaQuery.of(context).padding.horizontal,//),
 
       child: Stack(
         children: [
-          Image.memory(kTransparentImage),
+          //Image.memory(kTransparentImage),
           WebView(
             initialUrl: widget.url,
             javascriptMode: JavascriptMode.unrestricted,

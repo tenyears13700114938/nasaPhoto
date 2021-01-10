@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 class PhotoGridView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    //PaintingBinding.instance.imageCache.clear();
     ScrollController controller = ScrollController();
     return Consumer<NasaPhotoListModel>(
       builder: (context, photoList, child){
