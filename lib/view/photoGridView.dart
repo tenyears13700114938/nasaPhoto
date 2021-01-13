@@ -1,10 +1,10 @@
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_nasa_photo/model/nasaPhotoListModel.dart';
-import 'package:flutter_nasa_photo/repository/nasaRepository.dart';
+import 'package:flutter_nasa_photo/screen/photoDetailScreen.dart';
 import 'package:flutter_nasa_photo/view/photoItemView.dart';
 import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
 
 class PhotoGridView extends StatelessWidget {
   @override
@@ -21,15 +21,16 @@ class PhotoGridView extends StatelessWidget {
               Provider.of<NasaPhotoListModel>(context, listen: false).loadMoreNewPhotos();
             }
           },
-          onTap: (){
-            print("test onTap....");
-            print("test ${DateTime.parse("2021-01-05")}");
-            print("test ${DateFormat("yyyy-MM-dd").format(DateTime.now())}");
-          },
           child: GridView.builder(
             itemBuilder: (context, position){
               final photo = photoList.photos[position];
-              return PhotoItemView(photo.url, photo.title, photo.date);
+              return
+                GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => PhotoDetailScreen(photo)));
+                  },
+                  child: PhotoItemView(photo.url, photo.title, photo.date),
+                );
             },
             itemCount: photoList.photos.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
