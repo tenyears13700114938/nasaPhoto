@@ -32,7 +32,7 @@ class NasaPhotoListModel extends ChangeNotifier {
     });
   }
 
-  Future loadMoreNewPhotos(){
+  void loadMoreNewPhotos(){
     DateTime currentTime = DateTime.parse(_photos.first.date).add(Duration(days: 1));
     DateTime now = DateTime.now();
     DateTime resetBellowDay = DateTime(now.year, now.month, now.day);
@@ -55,7 +55,7 @@ class NasaPhotoListModel extends ChangeNotifier {
     }
   }
 
-  Future loadMoreOldPhotos(){
+  void loadMoreOldPhotos(){
     DateTime startTime = DateTime.parse(_photos.last.date).add(Duration(days: -21));
     DateTime endTime = DateTime.parse(_photos.last.date).add(Duration(days: -1));
 

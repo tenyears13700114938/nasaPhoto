@@ -19,14 +19,17 @@ class PhotoDetailScreen extends StatelessWidget {
               maxHeight:  MediaQuery.of(context).size.width - MediaQuery.of(context).padding.horizontal,
               maxWidth:  MediaQuery.of(context).size.width - MediaQuery.of(context).padding.horizontal
               ),
-            child: PhotoItemView(nasaPhoto.url, nasaPhoto.title, nasaPhoto.date),
+            child: PhotoItemView(nasaPhoto.url, nasaPhoto.title, nasaPhoto.date, isShowShadow:true),
           ),
           //Expanded(child: PhotoItemView(nasaPhoto.url, nasaPhoto.title, nasaPhoto.date)),
-          Text(
-            nasaPhoto.explanation,
-            style: TextStyle(
-              fontSize: 20,
-              //color: Colors.white
+          Padding(
+            padding: EdgeInsets.all(8),
+            child: Text(
+              nasaPhoto.explanation,
+              style: TextStyle(
+                fontSize: 20,
+                //color: Colors.white
+              ),
             ),
           )
         ],
