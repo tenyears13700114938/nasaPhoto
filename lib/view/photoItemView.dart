@@ -50,9 +50,9 @@ class PhotoItemView extends StatelessWidget {
       return FutureBuilder<ImageProvider>(
         future: PhotoImageProvider(imageUrl, date).getProvider(),
         builder: (BuildContext context, AsyncSnapshot<ImageProvider> snapshot){
-          if(snapshot.hasData){
+          if(snapshot.hasData && snapshot.data != null){
             // ignore: missing_return
-            return Image(image: snapshot.data);
+            return Image(image: snapshot.data as ImageProvider<Object>);
           }
           return Image.memory(kTransparentImage);
         },

@@ -33,7 +33,7 @@ class MyRepository implements NasaRepository {
         DateTime startTime = endTime.add(Duration(days: -20));
         startDate = DateFormat("yyyy-MM-dd").format(startTime);
         endDate = DateFormat("yyyy-MM-dd").format(endTime);
-        endDate = "2021-01-01";
+        endDate = "2021-10-12";
       }
       result = await webRepository.loadPhotos(startDate: startDate, endDate: endDate);
       result = result.reversed.toList();
@@ -47,7 +47,8 @@ class MyRepository implements NasaRepository {
 class TestRepository implements NasaRepository {
   @override
   Future<List<NasaPhoto>> loadPhotos({String startDate = "", String endDate = ""}) {
-    List<NasaPhoto> photoList = List.filled(15, null);
+    List<NasaPhoto> photoList = List.filled(15, NasaPhoto()
+    );
     for(var i = 0; i < 15; i++){
       photoList[i] = NasaPhoto(title: 'hello photo nasa world and hello photo nasa world $i',
         url: 'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'

@@ -38,7 +38,7 @@ class PhotoImageProvider {
   }
 
   void saveImage(String url, File file) async {
-    final response = await http.get(url);
+    final response = await http.get(Uri.parse(url));
     if(response.statusCode == 200){
       file.writeAsBytes(response.bodyBytes);
     }

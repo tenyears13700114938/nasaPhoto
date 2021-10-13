@@ -4,7 +4,6 @@ import 'package:flutter_nasa_photo/repository/dataBaseRepository.dart';
 import 'package:flutter_nasa_photo/repository/nasaRepository.dart';
 import 'package:flutter_nasa_photo/repository/webRepository.dart';
 import 'package:flutter_nasa_photo/view/photoGridView.dart';
-import 'package:flutter_nasa_photo/view/nasaWebView.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -39,13 +38,13 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.teal
       ),
-      home: MyHomePage(title: 'Flutter Nasa Photo Page'), //NasaWebView("https://www.youtube.com/embed/aokGqxVdpz0?rel=0"),/
+      home: MyHomePage(key: ValueKey("todo"), title: 'Flutter Nasa Photo Page'), //NasaWebView("https://www.youtube.com/embed/aokGqxVdpz0?rel=0"),/
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({required Key key, required this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
