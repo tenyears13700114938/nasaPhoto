@@ -6,32 +6,35 @@ import 'package:flutter_nasa_photo/repository/webRepository.dart';
 import 'package:flutter_nasa_photo/screen/photoBookMarkScreen.dart';
 import 'package:flutter_nasa_photo/screen/photoGridScreen.dart';
 import 'package:provider/provider.dart';
+import 'model/nasaPhotoBookMarkListModel.dart';
 import 'nasaPhotoTheme.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   //SystemChrome.setEnabledSystemUIMode (SystemUiMode.manual, overlays: [SystemUiOverlay.bottom]);
-  runApp(
-      ChangeNotifierProvider(
-        create: (context) {
-          final repository = MyRepository(DatabaseRepository(), WebRepository());
-          repository.init();
-          return NasaPhotoListModel(repository)..loadPhotos();
-        },
-        child: MyApp()
-      )
-  );
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) {
+      return NasaPhotoListModel(MyRepository())..loadPhotos();
+    }),
+    ChangeNotifierProvider(create: (context) {
+      return NasaPhotoBookMarkListModel(MyRepository())..loadingBookmark();
+    })
+  ], child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   final theme = NasaPhotoTheme.dark();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: theme,
-      home: MyHomePage(key: ValueKey("todo"), title: 'Flutter Nasa Photo Page'), //NasaWebView("https://www.youtube.com/embed/aokGqxVdpz0?rel=0"),/
+      home: MyHomePage(
+          key: ValueKey("todo"),
+          title:
+              'Flutter Nasa Photo Page'), //NasaWebView("https://www.youtube.com/embed/aokGqxVdpz0?rel=0"),/
     );
   }
 }
@@ -58,21 +61,15 @@ class _MyHomePageState extends State<MyHomePage> {
   late DefaultTabController _tabController;
 
   @override
-  void initState(){
+  void initState() {
     _tabController = DefaultTabController(
       length: 2,
       child: Scaffold(
         bottomNavigationBar: TabBar(
-          tabs: [
-            Tab(icon: Icon(Icons.list)),
-            Tab(icon: Icon(Icons.bookmark))
-          ],
+          tabs: [Tab(icon: Icon(Icons.list)), Tab(icon: Icon(Icons.bookmark))],
         ),
         body: TabBarView(
-          children: [
-            photoGridScreen(),
-            photoBookMarkScreen()
-          ],
+          children: [photoGridScreen(), photoBookMarkScreen()],
         ),
       ),
     );
@@ -89,4 +86,3 @@ class _MyHomePageState extends State<MyHomePage> {
     return _tabController;
   }
 }
-
