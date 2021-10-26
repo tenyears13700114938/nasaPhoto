@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_nasa_photo/model/nasaPhotoListModel.dart';
 import 'package:flutter_nasa_photo/repository/dataBaseRepository.dart';
 import 'package:flutter_nasa_photo/repository/nasaRepository.dart';
 import 'package:flutter_nasa_photo/repository/webRepository.dart';
-import 'package:flutter_nasa_photo/view/photoGridView.dart';
+import 'package:flutter_nasa_photo/screen/photoBookMarkScreen.dart';
+import 'package:flutter_nasa_photo/screen/photoGridScreen.dart';
 import 'package:provider/provider.dart';
 import 'nasaPhotoTheme.dart';
 
@@ -55,6 +55,29 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  late DefaultTabController _tabController;
+
+  @override
+  void initState(){
+    _tabController = DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        bottomNavigationBar: TabBar(
+          tabs: [
+            Tab(icon: Icon(Icons.list)),
+            Tab(icon: Icon(Icons.bookmark))
+          ],
+        ),
+        body: TabBarView(
+          children: [
+            photoGridScreen(),
+            photoBookMarkScreen()
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -63,33 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body:  Selector<NasaPhotoListModel, bool>(
-        selector: (context, model) => model.isLoading,
-        builder: (context, isLoading, _){
-          return Stack(
-            children: <Widget>[
-              PhotoGridView(),
-              isLoading ? Center(
-                child: CircularProgressIndicator(),
-              ) : SizedBox(width: 0, height: 0,)
-            ],
-          );
-          if(isLoading) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          return PhotoGridView();
-        },
-      ),
-      // This trailing comma makes auto-formatting nicer for build methods.
-    );
+    return _tabController;
   }
 }
 
