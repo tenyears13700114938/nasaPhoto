@@ -1,5 +1,7 @@
 
-class NasaPhoto {
+import 'package:equatable/equatable.dart';
+
+class NasaPhoto extends Equatable {
   final String copyright;
   final String date;
   final String explanation;
@@ -18,27 +20,27 @@ class NasaPhoto {
     this.url = "",
     this.copyright = ""});
 
-  @override
-  int get hashCode => date.hashCode ^ explanation.hashCode ^ hdUrl.hashCode ^ mediaType.hashCode
-  ^ serviceVersion.hashCode ^ title.hashCode ^ url.hashCode ^ copyright.hashCode;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-      other is NasaPhoto &&
-      date == other.date &&
-      explanation == other.explanation &&
-      hdUrl == other.hdUrl &&
-      mediaType == other.mediaType &&
-      serviceVersion == other.serviceVersion &&
-      title == other.title &&
-      copyright == other.copyright;
-  }
-
-  @override
-  String toString() {
-    return 'nasaPhoto{date: $date, explanation: $explanation, hdUrl: $hdUrl, mediaType:$mediaType, serviceVersion: $serviceVersion, title: $title, copyright: $copyright}';
-  }
+  // @override
+  // int get hashCode => date.hashCode ^ explanation.hashCode ^ hdUrl.hashCode ^ mediaType.hashCode
+  // ^ serviceVersion.hashCode ^ title.hashCode ^ url.hashCode ^ copyright.hashCode;
+  //
+  // @override
+  // bool operator ==(Object other) {
+  //   return identical(this, other) ||
+  //     other is NasaPhoto &&
+  //     date == other.date &&
+  //     explanation == other.explanation &&
+  //     hdUrl == other.hdUrl &&
+  //     mediaType == other.mediaType &&
+  //     serviceVersion == other.serviceVersion &&
+  //     title == other.title &&
+  //     copyright == other.copyright;
+  // }
+  //
+  // @override
+  // String toString() {
+  //   return 'nasaPhoto{date: $date, explanation: $explanation, hdUrl: $hdUrl, mediaType:$mediaType, serviceVersion: $serviceVersion, title: $title, copyright: $copyright}';
+  // }
 
   factory NasaPhoto.fromJson(Map<String, dynamic> json){
     return NasaPhoto(
@@ -72,4 +74,7 @@ class NasaPhoto {
       'explanation': explanation
     };
   }
+
+  @override
+  List<Object?> get props => [date, url, title, mediaType, explanation];
 }
