@@ -58,22 +58,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late DefaultTabController _tabController;
-
   @override
   void initState() {
     super.initState();
-    _tabController = DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        bottomNavigationBar: TabBar(
-          tabs: [Tab(icon: Icon(Icons.list)), Tab(icon: Icon(Icons.bookmark))],
-        ),
-        body: TabBarView(
-          children: [photoGridScreen(), photoBookMarkScreen()],
-        ),
-      ),
-    );
   }
 
   @override
@@ -84,6 +71,28 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return _tabController;
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        bottomNavigationBar: TabBar(
+          tabs: [
+            Tab(
+                icon: Icon(Icons.list,
+                    color: Theme.of(context)
+                        .floatingActionButtonTheme
+                        .backgroundColor)),
+            Tab(
+                icon: Icon(Icons.bookmark,
+                    color: Theme.of(context)
+                        .floatingActionButtonTheme
+                        .backgroundColor))
+          ],
+        ),
+        body: TabBarView(
+          children: [photoGridScreen(), photoBookMarkScreen()],
+        ),
+      ),
+    );
+    ;
   }
 }
