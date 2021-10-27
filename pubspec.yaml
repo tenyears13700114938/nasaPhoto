@@ -38,6 +38,8 @@ dependencies:
   webview_flutter: ^1.0.7
   google_fonts: ^2.1.0
   equatable: ^2.0.0
+  shared_preferences: ^2.0.8
+  enum_to_string: ^2.0.1
 
 dev_dependencies:
   flutter_test:

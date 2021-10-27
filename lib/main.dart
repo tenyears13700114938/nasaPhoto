@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_nasa_photo/model/nasaPhotoListModel.dart';
+import 'package:flutter_nasa_photo/model/photoTheme.dart';
 import 'package:flutter_nasa_photo/repository/dataBaseRepository.dart';
 import 'package:flutter_nasa_photo/repository/nasaRepository.dart';
 import 'package:flutter_nasa_photo/repository/webRepository.dart';
 import 'package:flutter_nasa_photo/screen/photoBookMarkScreen.dart';
 import 'package:flutter_nasa_photo/screen/photoGridScreen.dart';
+import 'package:flutter_nasa_photo/screen/photoThemeSettingScreen.dart';
 import 'package:provider/provider.dart';
 import 'model/nasaPhotoBookMarkListModel.dart';
 import 'nasaPhotoTheme.dart';
@@ -18,24 +20,29 @@ void main() {
     }),
     ChangeNotifierProvider(create: (context) {
       return NasaPhotoBookMarkListModel(MyRepository())..loadingBookmark();
+    }),
+    ChangeNotifierProvider(create: (context) {
+      return PhotoTheme()..getScheme();
     })
   ], child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
-  final theme = NasaPhotoTheme.dark();
+  //final theme = NasaPhotoTheme.dark();
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: theme,
-      home: MyHomePage(
-          key: ValueKey("todo"),
-          title:
-              'Flutter Nasa Photo Page'), //NasaWebView("https://www.youtube.com/embed/aokGqxVdpz0?rel=0"),/
-    );
+    return Consumer<PhotoTheme>(builder: (context, photoTheme, _) {
+      return MaterialApp(
+        title: 'Flutter Demo',
+        theme: photoTheme.photoThemeData,
+        home: MyHomePage(
+            key: ValueKey("todo"),
+            title:
+                'Flutter Nasa Photo Page'), //NasaWebView("https://www.youtube.com/embed/aokGqxVdpz0?rel=0"),/
+      );
+    });
   }
 }
 
@@ -72,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Scaffold(
         bottomNavigationBar: TabBar(
           tabs: [
@@ -85,11 +92,20 @@ class _MyHomePageState extends State<MyHomePage> {
                 icon: Icon(Icons.bookmark,
                     color: Theme.of(context)
                         .floatingActionButtonTheme
+                        .backgroundColor)),
+            Tab(
+                icon: Icon(Icons.settings,
+                    color: Theme.of(context)
+                        .floatingActionButtonTheme
                         .backgroundColor))
           ],
         ),
         body: TabBarView(
-          children: [photoGridScreen(), photoBookMarkScreen()],
+          children: [
+            photoGridScreen(),
+            photoBookMarkScreen(),
+            PhotoThemeSettingScreen()
+          ],
         ),
       ),
     );
