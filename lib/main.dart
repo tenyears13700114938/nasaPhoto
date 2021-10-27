@@ -62,6 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
+    super.initState();
     _tabController = DefaultTabController(
       length: 2,
       child: Scaffold(

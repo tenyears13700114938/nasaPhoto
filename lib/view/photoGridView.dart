@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_nasa_photo/model/nasaPhotoListModel.dart';
@@ -12,31 +11,37 @@ class PhotoGridView extends StatelessWidget {
     //PaintingBinding.instance.imageCache.clear();
     ScrollController controller = ScrollController();
     return Consumer<NasaPhotoListModel>(
-      builder: (context, photoList, child){
+      builder: (context, photoList, child) {
         return GestureDetector(
-          onVerticalDragDown: (e){
-            if(controller.offset == controller.position.maxScrollExtent){
-              Provider.of<NasaPhotoListModel>(context, listen: false).loadMoreOldPhotos();
-            } else if(controller.offset == controller.position.minScrollExtent) {
-              Provider.of<NasaPhotoListModel>(context, listen: false).loadMoreNewPhotos();
+          onVerticalDragDown: (e) {
+            if (controller.offset == controller.position.maxScrollExtent) {
+              Provider.of<NasaPhotoListModel>(context, listen: false)
+                  .loadMoreOldPhotos();
+            } else if (controller.offset ==
+                controller.position.minScrollExtent) {
+              Provider.of<NasaPhotoListModel>(context, listen: false)
+                  .loadMoreNewPhotos();
             }
           },
           child: GridView.builder(
-            itemBuilder: (context, position){
+            itemBuilder: (context, position) {
               final photo = photoList.photos[position];
-              return
-                GestureDetector(
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => PhotoDetailScreen(photo)));
-                  },
-                  child: PhotoItemView(photo.url, photo.title, photo.date),
-                );
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PhotoDetailScreen(photo)));
+                },
+                child: PhotoItemView(photo.url, photo.title, photo.date),
+              );
             },
             itemCount: photoList.photos.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+            gridDelegate:
+                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
             controller: controller,
             physics: const AlwaysScrollableScrollPhysics(),
-        ),
+          ),
           // child: GridView.count(
           //   primary: false,
           //   padding: const EdgeInsets.all(20),
@@ -51,9 +56,9 @@ class PhotoGridView extends StatelessWidget {
     );
   }
 
-  List<Widget> toWidgetList(NasaPhotoListModel model){
-    return model.photos.map((e) =>
-      PhotoItemView(e.url, e.title, e.date)
-    ).toList();
+  List<Widget> toWidgetList(NasaPhotoListModel model) {
+    return model.photos
+        .map((e) => PhotoItemView(e.url, e.title, e.date))
+        .toList();
   }
 }

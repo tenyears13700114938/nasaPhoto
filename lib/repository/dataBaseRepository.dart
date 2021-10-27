@@ -10,7 +10,7 @@ class DatabaseRepository implements NasaRepository {
 
   static final DatabaseRepository _repository = DatabaseRepository._();
 
-  factory DatabaseRepository(){
+  factory DatabaseRepository() {
     return _repository;
   }
 
@@ -19,7 +19,7 @@ class DatabaseRepository implements NasaRepository {
       join(await getDatabasesPath(), 'nasa_photo.db'),
       onCreate: (db, version) {
         return db.execute(
-            "CREATE TABLE photo(date TEXT PRIMARY KEY, url TEXT, title TEXT, media_type TEXT, explanation TEXT)");
+            "CREATE TABLE photo(date TEXT PRIMARY KEY, url TEXT, title TEXT, media_type TEXT, explanation TEXT, book_mark_type INTEGER DEFAULT 0)");
       },
       onUpgrade: (db, oldVersion, newVersion) {
         switch (oldVersion) {

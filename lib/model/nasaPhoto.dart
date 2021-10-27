@@ -10,6 +10,7 @@ class NasaPhoto extends Equatable {
   final String serviceVersion;
   final String title;
   final String url;
+  int bookMarkType;
 
   NasaPhoto({this.date = "",
     this.explanation = "",
@@ -18,7 +19,8 @@ class NasaPhoto extends Equatable {
     this.serviceVersion = "",
     this.title = "",
     this.url = "",
-    this.copyright = ""});
+    this.copyright = "",
+  this.bookMarkType = 0});
 
   // @override
   // int get hashCode => date.hashCode ^ explanation.hashCode ^ hdUrl.hashCode ^ mediaType.hashCode
@@ -61,7 +63,8 @@ class NasaPhoto extends Equatable {
       explanation: map['explanation'],
       mediaType: map['media_type'],
       title: map['title'],
-      url: map['url']
+      url: map['url'],
+      bookMarkType: map['book_mark_type']
     );
   }
 
@@ -71,10 +74,11 @@ class NasaPhoto extends Equatable {
       'url': url,
       'title': title,
       'media_type': mediaType,
-      'explanation': explanation
+      'explanation': explanation,
+      'book_mark_type': bookMarkType,
     };
   }
 
   @override
-  List<Object?> get props => [date, url, title, mediaType, explanation];
+  List<Object?> get props => [date, url, title, mediaType, explanation, bookMarkType];
 }

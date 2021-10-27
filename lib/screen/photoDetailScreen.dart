@@ -1,12 +1,18 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_nasa_photo/model/nasaPhoto.dart';
+import 'package:flutter_nasa_photo/model/nasaPhotoBookMarkListModel.dart';
 import 'package:flutter_nasa_photo/view/photoItemView.dart';
+import 'package:provider/provider.dart';
 
 class PhotoDetailScreen extends StatelessWidget {
-  final NasaPhoto nasaPhoto;
+  NasaPhoto nasaPhoto;
 
-  PhotoDetailScreen(this.nasaPhoto);
+  PhotoDetailScreen(this.nasaPhoto){
+    log("debug photo detail $nasaPhoto");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +45,12 @@ class PhotoDetailScreen extends StatelessWidget {
             child: SizedBox(
               width: double.infinity,
               child: TextButton.icon(
-                  onPressed: null,
+                  onPressed: (){
+                    NasaPhotoBookMarkListModel model = Provider.of<NasaPhotoBookMarkListModel>(context, listen: false);
+                    nasaPhoto.bookMarkType = 1;
+                    model.updateBookmark(nasaPhoto);
+                    Navigator.pop(context);
+                  },
                   icon: Icon(Icons.bookmark),
                   label: Text("Add Book mark"),
                   style: ButtonStyle(
