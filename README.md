@@ -4,9 +4,33 @@ A new Flutter application.
 
 ## SnapShot
 ### Dark mode
-![photo Detail](https://github.com/tenyears13700114938/nasaPhoto/blob/master/ScreenShot/Screenshot_dark_grid.png)
-![photo Detail](https://github.com/tenyears13700114938/nasaPhoto/blob/master/ScreenShot/Screenshot_dark_list.png)
-![photo Detail](https://github.com/tenyears13700114938/nasaPhoto/blob/master/ScreenShot/Screenshot_dark_detail.png)
+<table>
+  <tr>
+    <td>Phtoto Grid</td>
+     <td>Photo List</td>
+     <td>Photo Detail</td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/tenyears13700114938/nasaPhoto/blob/master/ScreenShot/Screenshot_dark_grid.png" width=270 height=600></td>
+    <td><img src="https://github.com/tenyears13700114938/nasaPhoto/blob/master/ScreenShot/Screenshot_dark_list.png" width=270 height=600></td>
+    <td><img src="https://github.com/tenyears13700114938/nasaPhoto/blob/master/ScreenShot/Screenshot_dark_detail.png" width=270 height=600></td>
+  </tr>
+ </table>
+ 
+ ### Light mode
+ <table>
+  <tr>
+    <td>Phtoto Grid</td>
+     <td>Photo List</td>
+     <td>Photo Detail</td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/tenyears13700114938/nasaPhoto/blob/master/ScreenShot/Screenshot_light_grid.png" width=270 height=600></td>
+    <td><img src="https://github.com/tenyears13700114938/nasaPhoto/blob/master/ScreenShot/Screenshot_light_list.png" width=270 height=600></td>
+    <td><img src="https://github.com/tenyears13700114938/nasaPhoto/blob/master/ScreenShot/Screenshot_light_detail.png" width=270 height=600></td>
+  </tr>
+ </table>
+
 
 ## Getting Started
 
