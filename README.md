@@ -2,6 +2,12 @@
 
 A new Flutter application.
 
+## SnapShot
+### Dark mode
+![photo Detail](https://github.com/tenyears13700114938/nasaPhoto/blob/master/ScreenShot/Screenshot_dark_grid.png)
+![photo Detail](https://github.com/tenyears13700114938/nasaPhoto/blob/master/ScreenShot/Screenshot_dark_list.png)
+![photo Detail](https://github.com/tenyears13700114938/nasaPhoto/blob/master/ScreenShot/Screenshot_dark_detail.png)
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
