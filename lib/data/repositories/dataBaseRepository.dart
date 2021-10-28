@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:flutter_nasa_photo/data/models/nasaPhotoModel.dart';
 import 'package:flutter_nasa_photo/domain/entites/nasaPhoto.dart';
 import 'package:flutter_nasa_photo/domain/repositories/nasaRepository.dart';
 import 'package:path/path.dart';
@@ -41,7 +42,9 @@ class DatabaseRepository implements NasaRepository {
     final List<Map<String, dynamic>> queryResult =
         await db.query("photo", orderBy: "date DESC");
     return List.generate(
-        queryResult.length, (index) => NasaPhoto.fromMap(queryResult[index]));
+        queryResult.length,
+        (index) =>
+            NasaPhoto.fromModel(NasaPhotoModel.fromMap(queryResult[index])));
   }
 
   Future<List<NasaPhoto>> loadBookmarkPhotos() async {
@@ -53,7 +56,9 @@ class DatabaseRepository implements NasaRepository {
       whereArgs: [1],
     );
     return List.generate(
-        queryResult.length, (index) => NasaPhoto.fromMap(queryResult[index]));
+        queryResult.length,
+        (index) =>
+            NasaPhoto.fromModel(NasaPhotoModel.fromMap(queryResult[index])));
   }
 
   @override
@@ -61,7 +66,7 @@ class DatabaseRepository implements NasaRepository {
 
   Future<void> insertPhoto(List<NasaPhoto> photos) async {
     final Database db = await database;
-    photos.forEach((element) {
+    photos.map((e) => NasaPhotoModel.fromEntity(e)).forEach((element) {
       db.insert("photo", element.toMap(),
           conflictAlgorithm: ConflictAlgorithm.replace);
     });
@@ -70,7 +75,7 @@ class DatabaseRepository implements NasaRepository {
   @override
   Future<void> updatePhoto(NasaPhoto photo) async {
     final Database db = await database;
-    await db.update('photo', photo.toMap(),
+    await db.update('photo', NasaPhotoModel.fromEntity(photo).toMap(),
         where: 'date = ? AND title = ? AND url = ?',
         whereArgs: [photo.date, photo.title, photo.url]);
   }

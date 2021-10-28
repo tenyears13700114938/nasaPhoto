@@ -1,12 +1,11 @@
 import 'package:enum_to_string/enum_to_string.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_nasa_photo/nasaPhotoTheme.dart';
 import 'package:flutter_nasa_photo/presentation/screen/photoThemeSettingScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class PhotoTheme extends ChangeNotifier implements Equatable {
+class PhotoTheme extends ChangeNotifier {
   SingingCharacter? _photoScheme = SingingCharacter.darkMode;
 
   SingingCharacter? get photoScheme => _photoScheme;
@@ -26,12 +25,6 @@ class PhotoTheme extends ChangeNotifier implements Equatable {
     }
     return result;
   }
-
-  @override
-  List<Object?> get props => [_photoScheme];
-
-  @override
-  bool? get stringify => false;
 
   void getScheme() async {
     final prefs = await SharedPreferences.getInstance();

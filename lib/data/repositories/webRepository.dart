@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:flutter_nasa_photo/data/models/nasaPhotoModel.dart';
 import 'package:flutter_nasa_photo/domain/entites/nasaPhoto.dart';
 import 'package:flutter_nasa_photo/domain/repositories/nasaRepository.dart';
 import 'package:http/http.dart' as http;
@@ -25,7 +26,7 @@ class WebRepository implements NasaRepository {
     final response = await http.get(Uri.parse(testUrl));
     if (response.statusCode == 200) {
       List<NasaPhoto> photoList = (jsonDecode(response.body) as List)
-          .map((e) => NasaPhoto.fromJson(e))
+          .map((e) => NasaPhoto.fromModel(NasaPhotoModel.fromJson(e)))
           .toList();
       return photoList;
     } else {

@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 class PhotoDetailScreen extends StatelessWidget {
   NasaPhoto nasaPhoto;
 
-  PhotoDetailScreen(this.nasaPhoto){
+  PhotoDetailScreen(this.nasaPhoto) {
     log("debug photo detail $nasaPhoto");
   }
 
@@ -45,10 +45,20 @@ class PhotoDetailScreen extends StatelessWidget {
             child: SizedBox(
               width: double.infinity,
               child: TextButton.icon(
-                  onPressed: (){
-                    NasaPhotoBookMarkListModel model = Provider.of<NasaPhotoBookMarkListModel>(context, listen: false);
-                    nasaPhoto.bookMarkType = 1;
-                    model.updateBookmark(nasaPhoto);
+                  onPressed: () {
+                    NasaPhotoBookMarkListModel model =
+                        Provider.of<NasaPhotoBookMarkListModel>(context,
+                            listen: false);
+                    model.updateBookmark(NasaPhoto(
+                        date: nasaPhoto.date,
+                        explanation: nasaPhoto.explanation,
+                        hdUrl: nasaPhoto.hdUrl,
+                        mediaType: nasaPhoto.mediaType,
+                        serviceVersion: nasaPhoto.serviceVersion,
+                        title: nasaPhoto.title,
+                        url: nasaPhoto.url,
+                        copyright: nasaPhoto.copyright,
+                        bookMarkType: 1));
                     Navigator.pop(context);
                   },
                   icon: Icon(Icons.bookmark),

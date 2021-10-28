@@ -1,16 +1,13 @@
 import 'dart:collection';
 import 'dart:developer';
-import 'dart:ffi';
 
-import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_nasa_photo/domain/repositories/nasaRepository.dart';
 import 'package:flutter_nasa_photo/domain/usecases/getBookmarkUsecase.dart';
 import 'package:flutter_nasa_photo/domain/usecases/savePhotoUseCase.dart';
 
 import '../../domain/entites/nasaPhoto.dart';
 
-class NasaPhotoBookMarkListModel extends ChangeNotifier implements Equatable {
+class NasaPhotoBookMarkListModel extends ChangeNotifier {
   final GetBookmarkUseCase _getBookmarkUseCase;
   final SavePhotoUseCase _savePhotoUseCase;
 
@@ -42,10 +39,4 @@ class NasaPhotoBookMarkListModel extends ChangeNotifier implements Equatable {
   Future updateBookmark(NasaPhoto photo) {
     return _savePhotoUseCase.call(photo);
   }
-
-  @override
-  List<Object?> get props => [_isLoading, _photos];
-
-  @override
-  bool? get stringify => false;
 }
