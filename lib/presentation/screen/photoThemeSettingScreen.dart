@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_nasa_photo/model/photoTheme.dart';
+import 'package:flutter_nasa_photo/presentation/state/photoTheme.dart';
 import 'package:flutter_nasa_photo/nasaPhotoTheme.dart';
 import 'package:provider/provider.dart';
 

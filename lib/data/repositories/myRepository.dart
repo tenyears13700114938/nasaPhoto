@@ -1,21 +1,9 @@
-import 'dart:ffi';
-
-import 'package:flutter/material.dart';
-import 'package:flutter_nasa_photo/model/nasaPhoto.dart';
-import 'package:flutter_nasa_photo/repository/dataBaseRepository.dart';
-import 'package:flutter_nasa_photo/repository/webRepository.dart';
+import 'package:flutter_nasa_photo/data/repositories/webRepository.dart';
+import 'package:flutter_nasa_photo/domain/entites/nasaPhoto.dart';
+import 'package:flutter_nasa_photo/domain/repositories/nasaRepository.dart';
 import 'package:intl/intl.dart';
 
-abstract class NasaRepository {
-  void init();
-
-  Future<List<NasaPhoto>> loadPhotos(
-      {String startDate = "", String endDate = ""});
-
-  Future<List<NasaPhoto>> loadBookmarkPhotos();
-
-  Future<void> updatePhoto(NasaPhoto photo);
-}
+import 'dataBaseRepository.dart';
 
 class MyRepository implements NasaRepository {
   late DatabaseRepository databaseRepository;
@@ -71,35 +59,5 @@ class MyRepository implements NasaRepository {
   @override
   Future<void> updatePhoto(NasaPhoto photo) async {
     await databaseRepository.updatePhoto(photo);
-  }
-}
-
-class TestRepository implements NasaRepository {
-  @override
-  Future<List<NasaPhoto>> loadPhotos(
-      {String startDate = "", String endDate = ""}) {
-    List<NasaPhoto> photoList = List.filled(15, NasaPhoto());
-    for (var i = 0; i < 15; i++) {
-      photoList[i] = NasaPhoto(
-          title: 'hello photo nasa world and hello photo nasa world $i',
-          url:
-              'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg');
-    }
-    return Future.value(photoList);
-  }
-
-  @override
-  void init() {}
-
-  @override
-  Future<List<NasaPhoto>> loadBookmarkPhotos() {
-    // TODO: implement loadBookmarkPhotos
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Void> updatePhoto(NasaPhoto phto) {
-    // TODO: implement updatePhoto
-    throw UnimplementedError();
   }
 }

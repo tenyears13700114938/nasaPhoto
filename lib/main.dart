@@ -1,25 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_nasa_photo/model/nasaPhotoListModel.dart';
-import 'package:flutter_nasa_photo/model/photoTheme.dart';
-import 'package:flutter_nasa_photo/repository/dataBaseRepository.dart';
-import 'package:flutter_nasa_photo/repository/nasaRepository.dart';
-import 'package:flutter_nasa_photo/repository/webRepository.dart';
-import 'package:flutter_nasa_photo/screen/photoBookMarkScreen.dart';
-import 'package:flutter_nasa_photo/screen/photoGridScreen.dart';
-import 'package:flutter_nasa_photo/screen/photoThemeSettingScreen.dart';
+import 'package:flutter_nasa_photo/domain/usecases/getBookmarkUsecase.dart';
+import 'package:flutter_nasa_photo/domain/usecases/getPhotosUseCase.dart';
+import 'package:flutter_nasa_photo/domain/usecases/savePhotoUseCase.dart';
+import 'package:flutter_nasa_photo/presentation/state/nasaPhotoListModel.dart';
+import 'package:flutter_nasa_photo/presentation/state/photoTheme.dart';
+import 'package:flutter_nasa_photo/presentation/screen/photoBookMarkScreen.dart';
+import 'package:flutter_nasa_photo/presentation/screen/photoGridScreen.dart';
+import 'package:flutter_nasa_photo/presentation/screen/photoThemeSettingScreen.dart';
 import 'package:provider/provider.dart';
-import 'model/nasaPhotoBookMarkListModel.dart';
-import 'nasaPhotoTheme.dart';
+import 'data/repositories/myRepository.dart';
+import 'presentation/state/nasaPhotoBookMarkListModel.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   //SystemChrome.setEnabledSystemUIMode (SystemUiMode.manual, overlays: [SystemUiOverlay.bottom]);
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) {
-      return NasaPhotoListModel(MyRepository())..loadPhotos();
+      return NasaPhotoListModel(GetPhotosUseCase(MyRepository()))..loadPhotos();
     }),
     ChangeNotifierProvider(create: (context) {
-      return NasaPhotoBookMarkListModel(MyRepository())..loadingBookmark();
+      return NasaPhotoBookMarkListModel(
+          GetBookmarkUseCase(MyRepository()), SavePhotoUseCase(MyRepository()))
+        ..loadingBookmark();
     }),
     ChangeNotifierProvider(create: (context) {
       return PhotoTheme()..getScheme();

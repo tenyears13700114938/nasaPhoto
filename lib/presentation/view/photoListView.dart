@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_nasa_photo/model/nasaPhotoBookMarkListModel.dart';
-import 'package:flutter_nasa_photo/view/photoCardView.dart';
+import 'package:flutter_nasa_photo/presentation/state/nasaPhotoBookMarkListModel.dart';
+import 'package:flutter_nasa_photo/presentation/view/photoCardView.dart';
 import 'package:provider/provider.dart';
 
 class PhotoListView extends StatelessWidget {

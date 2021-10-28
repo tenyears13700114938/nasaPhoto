@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_nasa_photo/model/nasaPhoto.dart';
-import 'package:flutter_nasa_photo/repository/photoImageProvider.dart';
-import 'package:flutter_nasa_photo/screen/photoDetailScreen.dart';
+import 'package:flutter_nasa_photo/domain/entites/nasaPhoto.dart';
+import 'package:flutter_nasa_photo/core/usecases/utils/photoImageProvider.dart';
+import 'package:flutter_nasa_photo/presentation/screen/photoDetailScreen.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class PhotoCardView extends StatelessWidget {

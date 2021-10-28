@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_nasa_photo/nasaPhotoTheme.dart';
-import 'package:flutter_nasa_photo/screen/photoThemeSettingScreen.dart';
+import 'package:flutter_nasa_photo/presentation/screen/photoThemeSettingScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PhotoTheme extends ChangeNotifier implements Equatable {

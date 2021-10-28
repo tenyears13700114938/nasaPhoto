@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_nasa_photo/model/nasaPhotoListModel.dart';
-import 'package:flutter_nasa_photo/screen/photoDetailScreen.dart';
-import 'package:flutter_nasa_photo/view/photoItemView.dart';
+import 'package:flutter_nasa_photo/presentation/state/nasaPhotoListModel.dart';
+import 'package:flutter_nasa_photo/presentation/screen/photoDetailScreen.dart';
+import 'package:flutter_nasa_photo/presentation/view/photoItemView.dart';
 import 'package:provider/provider.dart';
 
 class PhotoGridView extends StatelessWidget {

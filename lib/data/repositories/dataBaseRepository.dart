@@ -1,7 +1,7 @@
 import 'dart:ffi';
 
-import 'package:flutter_nasa_photo/model/nasaPhoto.dart';
-import 'package:flutter_nasa_photo/repository/nasaRepository.dart';
+import 'package:flutter_nasa_photo/domain/entites/nasaPhoto.dart';
+import 'package:flutter_nasa_photo/domain/repositories/nasaRepository.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 

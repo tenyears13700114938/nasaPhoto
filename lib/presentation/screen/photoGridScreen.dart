@@ -1,19 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_nasa_photo/model/nasaPhotoListModel.dart';
-import 'package:flutter_nasa_photo/view/photoGridView.dart';
+import 'package:flutter_nasa_photo/presentation/state/nasaPhotoListModel.dart';
+import 'package:flutter_nasa_photo/presentation/view/photoGridView.dart';
 import 'package:provider/provider.dart';
 
 class photoGridScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Selector<NasaPhotoListModel, bool>(
-      selector: (context, model) => model.isLoading,
-      builder: (context, isLoading, _) {
+    return Consumer<NasaPhotoListModel>(
+      builder: (context, model, _) {
         return Stack(
           children: <Widget>[
             PhotoGridView(),
-            isLoading
+            model.isLoading
                 ? Center(
                     child: CircularProgressIndicator(),
                   )
@@ -23,7 +22,7 @@ class photoGridScreen extends StatelessWidget {
                   )
           ],
         );
-        if (isLoading) {
+        if (model.isLoading) {
           return Center(
             child: CircularProgressIndicator(),
           );

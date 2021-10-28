@@ -2,9 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_nasa_photo/model/nasaPhoto.dart';
-import 'package:flutter_nasa_photo/model/nasaPhotoBookMarkListModel.dart';
-import 'package:flutter_nasa_photo/view/photoItemView.dart';
+import 'package:flutter_nasa_photo/domain/entites/nasaPhoto.dart';
+import 'package:flutter_nasa_photo/presentation/state/nasaPhotoBookMarkListModel.dart';
+import 'package:flutter_nasa_photo/presentation/view/photoItemView.dart';
 import 'package:provider/provider.dart';
 
 class PhotoDetailScreen extends StatelessWidget {
