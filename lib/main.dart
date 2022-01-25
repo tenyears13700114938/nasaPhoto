@@ -1,50 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_nasa_photo/domain/usecases/getBookmarkUsecase.dart';
-import 'package:flutter_nasa_photo/domain/usecases/getPhotosUseCase.dart';
-import 'package:flutter_nasa_photo/domain/usecases/savePhotoUseCase.dart';
-import 'package:flutter_nasa_photo/presentation/state/nasaPhotoListModel.dart';
+import 'package:flutter_nasa_photo/data/singingCharacter.dart';
 import 'package:flutter_nasa_photo/presentation/state/photoTheme.dart';
 import 'package:flutter_nasa_photo/presentation/screen/photoBookMarkScreen.dart';
 import 'package:flutter_nasa_photo/presentation/screen/photoGridScreen.dart';
 import 'package:flutter_nasa_photo/presentation/screen/photoThemeSettingScreen.dart';
-import 'package:provider/provider.dart';
-import 'data/repositories/myRepository.dart';
-import 'presentation/state/nasaPhotoBookMarkListModel.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   //SystemChrome.setEnabledSystemUIMode (SystemUiMode.manual, overlays: [SystemUiOverlay.bottom]);
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (context) {
-      return NasaPhotoListModel(GetPhotosUseCase(MyRepository()))..loadPhotos();
-    }),
-    ChangeNotifierProvider(create: (context) {
-      return NasaPhotoBookMarkListModel(
-          GetBookmarkUseCase(MyRepository()), SavePhotoUseCase(MyRepository()))
-        ..loadingBookmark();
-    }),
-    ChangeNotifierProvider(create: (context) {
-      return PhotoTheme()..getScheme();
-    })
-  ], child: MyApp()));
+  runApp(ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   // This widget is the root of your application.
   //final theme = NasaPhotoTheme.dark();
 
   @override
-  Widget build(BuildContext context) {
-    return Consumer<PhotoTheme>(builder: (context, photoTheme, _) {
-      return MaterialApp(
-        title: 'Flutter Demo',
-        theme: photoTheme.photoThemeData,
-        home: MyHomePage(
-            key: ValueKey("todo"),
-            title:
-                'Flutter Nasa Photo Page'), //NasaWebView("https://www.youtube.com/embed/aokGqxVdpz0?rel=0"),/
-      );
-    });
+  Widget build(BuildContext context, WidgetRef ref) {
+    SingingCharacter character = ref.watch(photoThemeProvider);
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: character.photoThemeData,
+      home: MyHomePage(
+          key: ValueKey("todo"),
+          title:
+              'Flutter Nasa Photo Page'), //NasaWebView("https://www.youtube.com/embed/aokGqxVdpz0?rel=0"),/
+    );
   }
 }
 
@@ -104,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         body: TabBarView(
           children: [
-            photoGridScreen(),
+            PhotoGridScreen(),
             photoBookMarkScreen(),
             PhotoThemeSettingScreen()
           ],

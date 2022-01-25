@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_nasa_photo/domain/entites/nasaPhoto.dart';
 import 'package:flutter_nasa_photo/presentation/state/nasaPhotoBookMarkListModel.dart';
 import 'package:flutter_nasa_photo/presentation/view/photoItemView.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart';
 
-class PhotoDetailScreen extends StatelessWidget {
+class PhotoDetailScreen extends ConsumerWidget {
   NasaPhoto nasaPhoto;
 
   PhotoDetailScreen(this.nasaPhoto) {
@@ -15,7 +16,7 @@ class PhotoDetailScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
         body: SingleChildScrollView(
       child: Column(
@@ -46,19 +47,18 @@ class PhotoDetailScreen extends StatelessWidget {
               width: double.infinity,
               child: TextButton.icon(
                   onPressed: () {
-                    NasaPhotoBookMarkListModel model =
-                        Provider.of<NasaPhotoBookMarkListModel>(context,
-                            listen: false);
-                    model.updateBookmark(NasaPhoto(
-                        date: nasaPhoto.date,
-                        explanation: nasaPhoto.explanation,
-                        hdUrl: nasaPhoto.hdUrl,
-                        mediaType: nasaPhoto.mediaType,
-                        serviceVersion: nasaPhoto.serviceVersion,
-                        title: nasaPhoto.title,
-                        url: nasaPhoto.url,
-                        copyright: nasaPhoto.copyright,
-                        bookMarkType: 1));
+                    ref
+                        .read(nasaPhotoBookMarkListModelProvider.notifier)
+                        .updateBookmark(NasaPhoto(
+                            date: nasaPhoto.date,
+                            explanation: nasaPhoto.explanation,
+                            hdUrl: nasaPhoto.hdUrl,
+                            mediaType: nasaPhoto.mediaType,
+                            serviceVersion: nasaPhoto.serviceVersion,
+                            title: nasaPhoto.title,
+                            url: nasaPhoto.url,
+                            copyright: nasaPhoto.copyright,
+                            bookMarkType: 1));
                     Navigator.pop(context);
                   },
                   icon: Icon(Icons.bookmark),

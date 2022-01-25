@@ -1,42 +1,36 @@
-import 'dart:collection';
-import 'dart:developer';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter_nasa_photo/domain/usecases/getBookmarkUsecase.dart';
 import 'package:flutter_nasa_photo/domain/usecases/savePhotoUseCase.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../domain/entites/nasaPhoto.dart';
 
-class NasaPhotoBookMarkListModel extends ChangeNotifier {
+final nasaPhotoBookMarkListModelProvider = StateNotifierProvider<
+    NasaPhotoBookMarkListModel, AsyncValue<List<NasaPhoto>>>((ref) {
+  return NasaPhotoBookMarkListModel(GetBookmarkUseCase(), SavePhotoUseCase());
+});
+
+class NasaPhotoBookMarkListModel
+    extends StateNotifier<AsyncValue<List<NasaPhoto>>> {
   final GetBookmarkUseCase _getBookmarkUseCase;
   final SavePhotoUseCase _savePhotoUseCase;
 
-  bool _isLoading = false;
+  NasaPhotoBookMarkListModel(this._getBookmarkUseCase, this._savePhotoUseCase)
+      : super(AsyncValue.loading()) {
+    loadingBookmark();
+  }
 
-  bool get isLoading => _isLoading;
-
-  List<NasaPhoto> _photos = List.empty(growable: true);
-
-  UnmodifiableListView<NasaPhoto> get photos => UnmodifiableListView(_photos);
-
-  NasaPhotoBookMarkListModel(this._getBookmarkUseCase, this._savePhotoUseCase);
-
-  Future loadingBookmark() {
-    _isLoading = true;
-    log("debug begin loading...");
-    return _getBookmarkUseCase.call(null).then((bookmarks) {
-      _photos.clear();
-      _photos.addAll(bookmarks);
-      _isLoading = false;
-      log("debug load end...");
-      notifyListeners();
-    }).catchError((error) {
-      _isLoading = false;
-      notifyListeners();
+  void loadingBookmark() async {
+    state = await AsyncValue.guard(() {
+      return _getBookmarkUseCase.call(null);
     });
   }
 
-  Future updateBookmark(NasaPhoto photo) {
-    return _savePhotoUseCase.call(photo);
+  void updateBookmark(NasaPhoto photo) async {
+    List<NasaPhoto> photos = List.from(state.value ?? List.empty());
+    state = await AsyncValue.guard(() {
+      _savePhotoUseCase.call(photo);
+      photos.add(photo);
+      return Future.value(photos);
+    });
   }
 }

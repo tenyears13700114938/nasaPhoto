@@ -4,79 +4,67 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_nasa_photo/core/usecases/usecase.dart';
 import 'package:flutter_nasa_photo/domain/repositories/nasaRepository.dart';
 import 'package:flutter_nasa_photo/domain/usecases/getPhotosUseCase.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../domain/entites/nasaPhoto.dart';
 import 'package:intl/intl.dart';
 
-class NasaPhotoListModel extends ChangeNotifier {
+final nasaPhotoListModelProvider =
+    StateNotifierProvider<NasaPhotoListModel, AsyncValue<List<NasaPhoto>>>(
+        (ref) {
+  return NasaPhotoListModel(GetPhotosUseCase());
+});
+
+class NasaPhotoListModel extends StateNotifier<AsyncValue<List<NasaPhoto>>> {
   final GetPhotosUseCase _getPhotoUseCase;
 
-  bool _isLoading = false;
+  NasaPhotoListModel(this._getPhotoUseCase) : super(AsyncValue.loading()) {
+    loadPhotos();
+  }
 
-  bool get isLoading => _isLoading;
-
-  List<NasaPhoto> _photos = List.empty(growable: true);
-
-  UnmodifiableListView<NasaPhoto> get photos => UnmodifiableListView(_photos);
-
-  NasaPhotoListModel(this._getPhotoUseCase);
-
-  Future loadPhotos() {
-    _isLoading = true;
-    notifyListeners();
-
-    return _getPhotoUseCase.call(List.empty()).then((loadPhotos) {
-      _photos.addAll(loadPhotos);
-      _isLoading = false;
-      notifyListeners();
-    }).catchError((error) {
-      _isLoading = false;
-      notifyListeners();
+  void loadPhotos() async {
+    state = await AsyncValue.guard(() {
+      return _getPhotoUseCase.call(List.empty());
     });
   }
 
-  void loadMoreNewPhotos() {
+  void loadMoreNewPhotos() async {
     DateTime currentTime =
-        DateTime.parse(_photos.first.date).add(Duration(days: 1));
+        DateTime.parse(state.value?.first.date ?? DateTime.now().toString())
+            .add(Duration(days: 1));
     DateTime now = DateTime.now();
     DateTime resetBellowDay = DateTime(now.year, now.month, now.day);
     if (currentTime.isBefore(resetBellowDay)) {
-      _isLoading = true;
-      notifyListeners();
-
-      _getPhotoUseCase.call([
-        DateFormat("yyyy-MM-dd").format(currentTime),
-        DateFormat("yyyy-MM-dd").format(resetBellowDay)
-      ]).then((value) {
-        _photos.insertAll(0, value);
-        _isLoading = false;
-        notifyListeners();
-      }).catchError((error) {
-        _isLoading = false;
-        notifyListeners();
+      state = await AsyncValue.guard(() {
+        List<NasaPhoto> photos = List.from(state.value ?? List.empty());
+        return _getPhotoUseCase.call([
+          DateFormat("yyyy-MM-dd").format(currentTime),
+          DateFormat("yyyy-MM-dd").format(resetBellowDay)
+        ]).then((value) {
+          photos.insertAll(0, value);
+          return photos;
+        });
       });
     }
   }
 
-  void loadMoreOldPhotos() {
-    DateTime startTime =
-        DateTime.parse(_photos.last.date).add(Duration(days: -21));
-    DateTime endTime =
-        DateTime.parse(_photos.last.date).add(Duration(days: -1));
+  Future<void> loadMoreOldPhotos() async {
+    String? lastDate = state.value?.last.date;
+    if (lastDate != null) {
+      DateTime startTime = DateTime.parse(lastDate).add(Duration(days: -21));
+      DateTime endTime = DateTime.parse(lastDate).add(Duration(days: -1));
 
-    _isLoading = true;
-    notifyListeners();
+      List<NasaPhoto> photos = List.from(state.value ?? List.empty());
 
-    _getPhotoUseCase.call([
-      DateFormat("yyyy-MM-dd").format(startTime),
-      DateFormat("yyyy-MM-dd").format(endTime)
-    ]).then((value) {
-      _photos.addAll(value);
-      _isLoading = false;
-      notifyListeners();
-    }).catchError((error) {
-      _isLoading = false;
-      notifyListeners();
-    });
+      state = await AsyncValue.guard(() {
+        return _getPhotoUseCase.call([
+          DateFormat("yyyy-MM-dd").format(startTime),
+          DateFormat("yyyy-MM-dd").format(endTime)
+        ]).then((value) {
+          photos.addAll(value);
+          return photos;
+        });
+      });
+    }
   }
 }

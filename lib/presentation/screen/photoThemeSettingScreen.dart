@@ -1,66 +1,58 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_nasa_photo/data/singingCharacter.dart';
 import 'package:flutter_nasa_photo/presentation/state/photoTheme.dart';
-import 'package:flutter_nasa_photo/nasaPhotoTheme.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PhotoThemeSettingScreen extends StatefulWidget {
+class PhotoThemeSettingScreen extends ConsumerStatefulWidget {
   @override
   _PhotoThemeSettingScreenState createState() =>
       _PhotoThemeSettingScreenState();
 }
 
-enum SingingCharacter { darkMode, lightMode }
-
-class _PhotoThemeSettingScreenState extends State<PhotoThemeSettingScreen> {
+class _PhotoThemeSettingScreenState
+    extends ConsumerState<PhotoThemeSettingScreen> {
   SingingCharacter? _character;
 
   void initState() {
     super.initState();
-    Provider.of<PhotoTheme>(context, listen: false)..getScheme();
+    ref.read(photoThemeProvider);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<PhotoTheme>(builder: (context, photoTheme, _) {
-      _character = photoTheme.photoScheme;
-      log("debug $_character");
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          ListTile(title: Text('App Theme choose...')),
-          ListTile(
-            title: Text('darkMode'),
+    SingingCharacter character = ref.watch(photoThemeProvider);
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        ListTile(title: Text('App Theme choose...')),
+        ListTile(
+          title: Text('darkMode'),
+          leading: Radio<SingingCharacter>(
+            value: SingingCharacter.darkMode,
+            groupValue: character,
+            onChanged: (SingingCharacter? value) {
+              setState(() {
+                _character = value;
+                ref.read(photoThemeProvider.notifier).setScheme(value);
+              });
+            },
+          ),
+        ),
+        ListTile(
+            title: Text('lightMode'),
             leading: Radio<SingingCharacter>(
-              value: SingingCharacter.darkMode,
-              groupValue: _character,
+              value: SingingCharacter.lightMode,
+              groupValue: character,
               onChanged: (SingingCharacter? value) {
                 setState(() {
                   _character = value;
-                  Provider.of<PhotoTheme>(context, listen: false)
-                      .setScheme(value);
+                  ref.read(photoThemeProvider.notifier).setScheme(value);
                 });
               },
-            ),
-          ),
-          ListTile(
-              title: Text('lightMode'),
-              leading: Radio<SingingCharacter>(
-                value: SingingCharacter.lightMode,
-                groupValue: _character,
-                onChanged: (SingingCharacter? value) {
-                  setState(() {
-                    _character = value;
-                    Provider.of<PhotoTheme>(context, listen: false)
-                        .setScheme(value);
-                  });
-                },
-              )),
-        ],
-      );
-    });
+            )),
+      ],
+    );
   }
 }
