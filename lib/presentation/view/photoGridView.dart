@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_nasa_photo/domain/entites/nasaPhoto.dart';
 import 'package:flutter_nasa_photo/presentation/state/nasaPhotoListModel.dart';
 import 'package:flutter_nasa_photo/presentation/screen/photoDetailScreen.dart';
+import 'package:flutter_nasa_photo/presentation/state/nasaPhotoRouteState.dart';
 import 'package:flutter_nasa_photo/presentation/view/photoItemView.dart';
+import 'package:flutter_nasa_photo/route/nasaPhotoRoute.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PhotoGridView extends ConsumerWidget {
@@ -28,10 +30,11 @@ class PhotoGridView extends ConsumerWidget {
           final photo = photoList[position];
           return GestureDetector(
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => PhotoDetailScreen(photo)));
+              ref.read(nasaPhotoRouteStateProvider).push(NasaPhotoDetail(photo));
+              // Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (context) => PhotoDetailScreen(photo)));
             },
             child: PhotoItemView(photo.url, photo.title, photo.date),
           );

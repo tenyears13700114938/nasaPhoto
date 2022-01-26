@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_nasa_photo/data/singingCharacter.dart';
+import 'package:flutter_nasa_photo/presentation/state/nasaPhotoRouteState.dart';
 import 'package:flutter_nasa_photo/presentation/state/photoTheme.dart';
-import 'package:flutter_nasa_photo/presentation/screen/photoBookMarkScreen.dart';
-import 'package:flutter_nasa_photo/presentation/screen/photoGridScreen.dart';
-import 'package:flutter_nasa_photo/presentation/screen/photoThemeSettingScreen.dart';
+import 'package:flutter_nasa_photo/route/nasaPhotoRouteDelegate.dart';
+import 'package:flutter_nasa_photo/route/nasaPhotoRouteInformationParser.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
@@ -12,87 +12,32 @@ void main() {
   runApp(ProviderScope(child: MyApp()));
 }
 
-class MyApp extends ConsumerWidget {
+class MyApp extends ConsumerStatefulWidget {
   // This widget is the root of your application.
   //final theme = NasaPhotoTheme.dark();
-
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    SingingCharacter character = ref.watch(photoThemeProvider);
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: character.photoThemeData,
-      home: MyHomePage(
-          key: ValueKey("todo"),
-          title:
-              'Flutter Nasa Photo Page'), //NasaWebView("https://www.youtube.com/embed/aokGqxVdpz0?rel=0"),/
-    );
-  }
+  ConsumerState<ConsumerStatefulWidget> createState() => _MyAppState();
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({required Key key, required this.title}) : super(key: key);
+class _MyAppState extends ConsumerState<MyApp> {
+  late NasaPhotoRouteDelegate routeDelegate;
+  NasaPhotoRouteInformationParser parser = NasaPhotoRouteInformationParser();
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    routeDelegate =
+        NasaPhotoRouteDelegate(ref.read(nasaPhotoRouteStateProvider));
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        bottomNavigationBar: TabBar(
-          tabs: [
-            Tab(
-                icon: Icon(Icons.list,
-                    color: Theme.of(context)
-                        .floatingActionButtonTheme
-                        .backgroundColor)),
-            Tab(
-                icon: Icon(Icons.bookmark,
-                    color: Theme.of(context)
-                        .floatingActionButtonTheme
-                        .backgroundColor)),
-            Tab(
-                icon: Icon(Icons.settings,
-                    color: Theme.of(context)
-                        .floatingActionButtonTheme
-                        .backgroundColor))
-          ],
-        ),
-        body: TabBarView(
-          children: [
-            PhotoGridScreen(),
-            photoBookMarkScreen(),
-            PhotoThemeSettingScreen()
-          ],
-        ),
-      ),
+    SingingCharacter character = ref.watch(photoThemeProvider);
+    return MaterialApp.router(
+      title: 'Nasa Photo...',
+      theme: character.photoThemeData,
+      routerDelegate: routeDelegate,
+      routeInformationParser: parser,
     );
-    ;
   }
 }

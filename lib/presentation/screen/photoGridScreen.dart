@@ -21,4 +21,8 @@ class PhotoGridScreen extends ConsumerWidget {
       );
     });
   }
+
+  static MaterialPage createPage() {
+    return MaterialPage(child: PhotoGridScreen(), key: ValueKey('photoGrid'));
+  }
 }

@@ -77,4 +77,9 @@ class PhotoDetailScreen extends ConsumerWidget {
       ),
     ));
   }
+
+  static MaterialPage createPage(NasaPhoto detailPhoto) {
+    return MaterialPage(
+        key: ValueKey(detailPhoto), child: PhotoDetailScreen(detailPhoto));
+  }
 }

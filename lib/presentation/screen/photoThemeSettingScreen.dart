@@ -8,6 +8,12 @@ class PhotoThemeSettingScreen extends ConsumerStatefulWidget {
   @override
   _PhotoThemeSettingScreenState createState() =>
       _PhotoThemeSettingScreenState();
+
+  static MaterialPage createPage() {
+    return MaterialPage(
+        child: PhotoThemeSettingScreen(),
+        key: ValueKey('photoThemeSettingScreen'));
+  }
 }
 
 class _PhotoThemeSettingScreenState
