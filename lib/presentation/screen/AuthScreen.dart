@@ -25,12 +25,12 @@ class AuthState extends ConsumerState<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(userAuthStateProvider, (previous, next) {
-      if (next is UserAuthSuccess) {
+    ref.listen<UserAuthNotifier>(userAuthStateProvider, (previous, next) {
+      if (next.user is UserAuthSuccess) {
         ref.read(nasaPhotoRouteStateProvider).loginSuccess();
-      } else if (next is UserAuthError) {
-        final snackBar =
-            SnackBar(content: Text(next.exception?.toString() ?? "error"));
+      } else if (next.user is UserAuthError) {
+        final error = (next.user as UserAuthError).exception;
+        final snackBar = SnackBar(content: Text(error?.toString() ?? "error"));
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     });

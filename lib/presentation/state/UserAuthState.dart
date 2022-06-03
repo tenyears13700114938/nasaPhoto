@@ -8,15 +8,17 @@ class UserAuthState {
 
 class UserAuthSuccess extends UserAuthState {
   User? user;
+
   UserAuthSuccess(this.user) : super._();
 }
 
 class UserAuthError extends UserAuthState {
   Exception? exception;
+
   UserAuthError(this.exception) : super._();
 }
 
-final userAuthStateProvider = Provider((ref) {
+final userAuthStateProvider = ChangeNotifierProvider<UserAuthNotifier>((ref) {
   return UserAuthNotifier();
 });
 
@@ -27,6 +29,7 @@ class UserAuthNotifier extends ChangeNotifier {
     try {
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
+      print("firebase check success.....");
       user = UserAuthSuccess(credential.user);
     } on Exception catch (e) {
       user = UserAuthError(e);
