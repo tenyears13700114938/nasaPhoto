@@ -6,13 +6,15 @@ import 'package:flutter_nasa_photo/presentation/screen/photoThemeSettingScreen.d
 import 'package:flutter_nasa_photo/presentation/state/nasaPhotoRouteState.dart';
 import 'package:flutter_nasa_photo/route/nasaPhotoRoute.dart';
 
+import '../presentation/screen/AuthScreen.dart';
+
 class NasaPhotoRouteDelegate extends RouterDelegate<NasaPhotoRoute>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<NasaPhotoRoute> {
   final GlobalKey<NavigatorState> _navigatorKey;
   final NasaPhotoRouteState routeState;
 
   NasaPhotoRouteDelegate(this.routeState)
-      : _navigatorKey = GlobalKey<NavigatorState>(){
+      : _navigatorKey = GlobalKey<NavigatorState>() {
     routeState.addListener(notifyListeners);
   }
 
@@ -21,7 +23,9 @@ class NasaPhotoRouteDelegate extends RouterDelegate<NasaPhotoRoute>
     return Navigator(
       key: _navigatorKey,
       pages: [
-        if (routeState.currentPage is NasaPhotoGrid)
+        if (!routeState.isLoggedIn)
+          AuthScreen.createPage()
+        else if (routeState.currentPage is NasaPhotoGrid)
           PhotoGridScreen.createPage()
         else if (routeState.currentPage is NasaPhotoBookmark)
           PhotoBookMarkScreen.createPage()
@@ -46,8 +50,8 @@ class NasaPhotoRouteDelegate extends RouterDelegate<NasaPhotoRoute>
             ));
           })
       ],
-      onPopPage: (route, info){
-        if(!route.didPop(info)){
+      onPopPage: (route, info) {
+        if (!route.didPop(info)) {
           return false;
         }
         //Todo UseCase check

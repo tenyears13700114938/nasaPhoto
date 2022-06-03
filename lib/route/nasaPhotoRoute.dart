@@ -14,4 +14,6 @@ class NasaPhotoBookmark extends NasaPhotoRoute {}
 
 class NasaPhotoTheme extends NasaPhotoRoute {}
 
+class LogIn extends NasaPhotoRoute {}
+
 class NasaPhotoUnknown extends NasaPhotoRoute {}

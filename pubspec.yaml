@@ -40,6 +40,7 @@ dependencies:
   equatable: ^2.0.0
   shared_preferences: ^2.0.8
   enum_to_string: ^2.0.1
+  flutter_riverpod: ^2.0.0-dev.0
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_nasa_photo/domain/entites/nasaPhoto.dart';
 import 'package:flutter_nasa_photo/route/nasaPhotoRoute.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -8,7 +7,12 @@ final nasaPhotoRouteStateProvider = Provider((ref) {
 });
 
 class NasaPhotoRouteState extends ChangeNotifier {
-  List<NasaPhotoRoute> routeList = List.of([NasaPhotoGrid()]);
+  var isLoggedIn = false;
+  List<NasaPhotoRoute> routeList = List.of([]);
+
+  NasaPhotoRouteState() {
+    routeList.add(isLoggedIn ? NasaPhotoGrid() : LogIn());
+  }
 
   NasaPhotoRoute? get currentPage =>
       routeList.length > 0 ? routeList.last : null;
