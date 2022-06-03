@@ -26,4 +26,10 @@ class NasaPhotoRouteState extends ChangeNotifier {
     routeList.removeLast();
     notifyListeners();
   }
+
+  void loginSuccess() {
+    isLoggedIn = true;
+    routeList.add(NasaPhotoGrid());
+    notifyListeners();
+  }
 }

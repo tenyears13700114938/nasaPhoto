@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_nasa_photo/data/singingCharacter.dart';
 import 'package:flutter_nasa_photo/presentation/state/nasaPhotoRouteState.dart';
@@ -6,8 +7,13 @@ import 'package:flutter_nasa_photo/route/nasaPhotoRouteDelegate.dart';
 import 'package:flutter_nasa_photo/route/nasaPhotoRouteInformationParser.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-void main() {
+import 'firebase_options.dart';
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   //SystemChrome.setEnabledSystemUIMode (SystemUiMode.manual, overlays: [SystemUiOverlay.bottom]);
   runApp(ProviderScope(child: MyApp()));
 }
