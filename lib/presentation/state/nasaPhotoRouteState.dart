@@ -7,12 +7,7 @@ final nasaPhotoRouteStateProvider = Provider((ref) {
 });
 
 class NasaPhotoRouteState extends ChangeNotifier {
-  var isLoggedIn = false;
   List<NasaPhotoRoute> routeList = List.of([]);
-
-  NasaPhotoRouteState() {
-    routeList.add(isLoggedIn ? NasaPhotoGrid() : LogIn());
-  }
 
   NasaPhotoRoute? get currentPage =>
       routeList.length > 0 ? routeList.last : null;
@@ -28,8 +23,7 @@ class NasaPhotoRouteState extends ChangeNotifier {
   }
 
   void loginSuccess() {
-    isLoggedIn = true;
-    routeList.add(NasaPhotoGrid());
+    routeList.clear();
     notifyListeners();
   }
 }

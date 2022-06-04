@@ -1,25 +1,27 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_nasa_photo/domain/entites/nasaPhoto.dart';
 import 'package:flutter_nasa_photo/core/usecases/utils/photoImageProvider.dart';
-import 'package:flutter_nasa_photo/presentation/screen/photoDetailScreen.dart';
+import 'package:flutter_nasa_photo/domain/entites/nasaPhoto.dart';
+import 'package:flutter_nasa_photo/presentation/state/nasaPhotoRouteState.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-class PhotoCardView extends StatelessWidget {
+import '../../route/nasaPhotoRoute.dart';
+
+class PhotoCardView extends ConsumerWidget {
   final NasaPhoto photo;
 
   PhotoCardView(this.photo);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
         padding: EdgeInsets.all(4),
         child: GestureDetector(
           onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => PhotoDetailScreen(photo)));
+            ref
+                .read<NasaPhotoRouteState>(nasaPhotoRouteStateProvider)
+                .push(NasaPhotoDetail(photo));
           },
           child: Card(
             child: ListTile(

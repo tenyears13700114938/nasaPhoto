@@ -8,7 +8,7 @@ class NasaPhotoRouteInformationParser
       RouteInformation routeInformation) async {
     final uri = Uri.parse(routeInformation.location ?? "");
     if (uri.pathSegments.length == 0) {
-      return NasaPhotoGrid();
+      return Home();
     }
     return NasaPhotoUnknown();
   }

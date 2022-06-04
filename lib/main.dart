@@ -26,7 +26,7 @@ class MyApp extends ConsumerStatefulWidget {
 }
 
 class _MyAppState extends ConsumerState<MyApp> {
-  late NasaPhotoRouteDelegate routeDelegate;
+  static late NasaPhotoRouteDelegate routeDelegate;
   NasaPhotoRouteInformationParser parser = NasaPhotoRouteInformationParser();
 
   @override

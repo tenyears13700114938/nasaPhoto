@@ -16,4 +16,6 @@ class NasaPhotoTheme extends NasaPhotoRoute {}
 
 class LogIn extends NasaPhotoRoute {}
 
+class Home extends NasaPhotoRoute {}
+
 class NasaPhotoUnknown extends NasaPhotoRoute {}
