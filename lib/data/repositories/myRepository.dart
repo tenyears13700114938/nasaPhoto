@@ -35,11 +35,11 @@ class MyRepository implements NasaRepository {
 
     if (result.isEmpty) {
       if (startDate == "") {
-        DateTime endTime = DateTime.now();
+        DateTime endTime = DateTime.now().add(Duration(days: -5));
         DateTime startTime = endTime.add(Duration(days: -20));
         startDate = DateFormat("yyyy-MM-dd").format(startTime);
         endDate = DateFormat("yyyy-MM-dd").format(endTime);
-        endDate = "2022-01-21";
+        //endDate = "2022-01-21";
       }
       result = await webRepository.loadPhotos(
           startDate: startDate, endDate: endDate);
