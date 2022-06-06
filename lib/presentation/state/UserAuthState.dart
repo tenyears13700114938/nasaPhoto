@@ -25,6 +25,12 @@ final userAuthStateProvider = ChangeNotifierProvider<UserAuthNotifier>((ref) {
 class UserAuthNotifier extends ChangeNotifier {
   UserAuthState? user;
 
+  UserAuthNotifier() {
+    FirebaseAuth.instance.authStateChanges().listen((event) {
+      notifyListeners();
+    });
+  }
+
   void login(String email, String password, String userName) async {
     try {
       final credential = await FirebaseAuth.instance
@@ -34,6 +40,11 @@ class UserAuthNotifier extends ChangeNotifier {
     } on Exception catch (e) {
       user = UserAuthError(e);
     }
+    notifyListeners();
+  }
+
+  void logout() async {
+    await FirebaseAuth.instance.signOut();
     notifyListeners();
   }
 

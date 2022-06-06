@@ -11,7 +11,6 @@ class NasaPhotoRouteDelegate extends RouterDelegate<NasaPhotoRoute>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<NasaPhotoRoute> {
   final GlobalKey<NavigatorState> _navigatorKey;
   final NasaPhotoRouteState routeState;
-  final isLoggedIn = FirebaseAuth.instance.currentUser != null;
 
   NasaPhotoRouteDelegate(this.routeState)
       : _navigatorKey = GlobalKey<NavigatorState>() {
@@ -23,8 +22,8 @@ class NasaPhotoRouteDelegate extends RouterDelegate<NasaPhotoRoute>
     return Navigator(
       key: _navigatorKey,
       pages: [
-        if (isLoggedIn == false) AuthScreen.createPage(),
-        if (isLoggedIn) HomeScreen.createPage(),
+        if (FirebaseAuth.instance.currentUser == null) AuthScreen.createPage(),
+        if (FirebaseAuth.instance.currentUser != null) HomeScreen.createPage(),
         ...routeState.routeList.where((element) => !(element is Home)).map((e) {
           if (e is NasaPhotoDetail) {
             return PhotoDetailScreen.createPage(e.detailPhoto);
